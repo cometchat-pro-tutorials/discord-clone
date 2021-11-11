@@ -1,3 +1,6 @@
+import React, { useState } from 'react';
+
+import CreateServerForm from './CreateServerForm';
 import CreateServerItem from './CreateServerItem';
 
 import cs1 from '../images/cs1.png';
@@ -8,10 +11,11 @@ import cs5 from '../images/cs5.png';
 import cs6 from '../images/cs6.png';
 import cs7 from '../images/cs7.png';
 import cs8 from '../images/cs8.png';
-import React from 'react';
 
 const CreateServer = (props) => {
   const { toggleModal } = props;
+
+  const [isCreating, setIsCreating] = useState(false);
 
   const list = [
     {
@@ -62,6 +66,14 @@ const CreateServer = (props) => {
     toggleModal(false);
   };
 
+  const create = () => {
+    setIsCreating(() => true);
+  };
+
+  if (isCreating) {
+    return <CreateServerForm hide={hide} />
+  }
+
   return (
     <div className="cs">
       <div className="cs__content">
@@ -73,10 +85,10 @@ const CreateServer = (props) => {
         <div className="cs__subtitle">Create a Server</div>
         <p className="cs__description">Your server is where you and your friends hang out.
           Make yours and start talking.</p>
-        <CreateServerItem item={list[0]} />
+        <CreateServerItem onItemClicked={create} item={list[0]} />
         <div className="cs__list-title">Start from a template</div>
         <div className="cs__list">
-          {list.map((item, index) => index === 0 ? <React.Fragment key={index}></React.Fragment> : <CreateServerItem key={index} item={item} />)}
+          {list.map((item, index) => index === 0 ? <React.Fragment key={index}></React.Fragment> : <CreateServerItem key={index} item={item} onItemClicked={create} />)}
         </div>
       </div>
     </div>

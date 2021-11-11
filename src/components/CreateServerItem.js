@@ -1,8 +1,8 @@
 const CreateServerItem = (props) => {
-  const { item } = props;
+  const { onItemClicked, item } = props;
 
   return (
-    <div className="cs__li">
+    <div className="cs__li" onClick={onItemClicked}>
       <div className="cs__li-left">
         <img src={item.icon} alt="cs1" />
         <span>{item.title}</span>

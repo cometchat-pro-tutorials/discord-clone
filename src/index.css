@@ -648,11 +648,65 @@ input {
 }
 
 .cs__li-left span {
-  color: #2E3337;
+  color: #2e3337;
   font-weight: bold;
 }
 
 .cs__li-right {
   display: grid;
   justify-content: right;
+}
+
+.cs__ui {
+  text-align: center;
+}
+
+.cs__form-title {
+  font-size: 13px;
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 0.5rem 0.75rem;
+  color: #4e5660;
+}
+
+.cs__form input {
+  border-radius: 0.25rem;
+  border: 1px solid #ccc;
+  margin: 0 0.75rem;
+  padding: 0.5rem 0.75rem;
+  width: calc(100% - 1.5rem);
+}
+
+.cs__form p {
+  color: #8c96a1;
+  font-size: 0.6875rem;
+  margin: 0.5rem 0.75rem;
+  padding-bottom: 1rem;
+}
+
+.highlight {
+  color: #404eed;
+  font-weight: bold;
+}
+
+.cs__fa {
+  align-items: center;
+  background: #F6F6F7;
+  display: grid;
+  font-size: 0.8125rem;
+  font-weight: bold;
+  grid-template-columns: repeat(2, 1fr);
+  padding: 0.75rem;
+}
+
+.cs__create {
+  display: grid;
+  justify-content: right;
+}
+
+.cs__create span {
+  background-color: #404eed;
+  color: #fff;
+  padding: 0.75rem 1rem;
+  border-radius: 0.25rem;
 }
