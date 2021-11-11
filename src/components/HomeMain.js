@@ -10,6 +10,9 @@ const HomeMain = () => {
 
   useEffect(() => {
     search();
+    return () => {
+      setCommunities([]);
+    }; 
   }, []);
 
   const search = (keywords = null) => {

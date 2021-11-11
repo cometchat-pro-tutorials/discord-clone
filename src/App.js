@@ -6,7 +6,9 @@ import {
   Route
 } from 'react-router-dom';
 
+import HomeMenu from './components/HomeMenu';
 import Home from './components/Home';
+import Friends from './components/Friends';
 import Login from './components/Login';
 import Loading from './components/Loading';
 import PrivateRoute from './components/PrivateRoute';
@@ -19,6 +21,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
   const [cometChat, setCometChat] = useState(null);
+  const [selectedMenu, setSelectedMenu] = useState(4);
 
   useEffect(() => {
     initAuthUser();
@@ -47,10 +50,12 @@ function App() {
   }
 
   return (
-    <Context.Provider value={{ isLoading, setIsLoading, user, setUser, cometChat }}>
+    <Context.Provider value={{ isLoading, setIsLoading, user, setUser, cometChat, selectedMenu, setSelectedMenu }}>
       <Router>
+        {user && <HomeMenu />}
         <Switch>
           <PrivateRoute exact path="/" component={Home} />
+          <PrivateRoute exact path="/friends" component={Friends} />
           <Route exact path="/login">
             <Login />
           </Route>

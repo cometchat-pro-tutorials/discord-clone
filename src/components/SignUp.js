@@ -9,6 +9,7 @@ import { auth, realTimeDb } from "../firebase";
 const SignUp = (props) => {
   const { toggleModal } = props;
 
+  const fullnameRef = useRef(null);
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const confirmPasswordRef = useRef(null);
@@ -16,13 +17,18 @@ const SignUp = (props) => {
   const { cometChat, setIsLoading } = useContext(Context);
 
   const getInputs = () => {
+    const fullname = fullnameRef.current.value;
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
     const confirmPassword = confirmPasswordRef.current.value;
-    return { email, password, confirmPassword };
+    return { fullname, email, password, confirmPassword };
   };
 
-  const isSignupValid = ({ email, password, confirmPassword }) => {
+  const isSignupValid = ({ fullname, email, password, confirmPassword }) => {
+    if (!validator.isEmpty(fullname)) {
+      alert("Please input your fullname");
+      return false;
+    }
     if (!validator.isEmail(email)) {
       alert("Please input your email");
       return false;
@@ -114,6 +120,7 @@ const SignUp = (props) => {
         </div>
         <div className="signup__subtitle"></div>
         <div className="signup__form">
+          <input type="text" placeholder="Fullname" ref={fullnameRef} />
           <input type="text" placeholder="Email" ref={emailRef} />
           <input type="password" placeholder="Password" ref={passwordRef} />
           <input

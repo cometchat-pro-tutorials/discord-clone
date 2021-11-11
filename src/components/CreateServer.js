@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import CreateServerForm from './CreateServerForm';
-import CreateServerItem from './CreateServerItem';
+import ServerItem from './ServerItem';
 
 import cs1 from '../images/cs1.png';
 import cs2 from '../images/cs2.png';
@@ -75,20 +75,20 @@ const CreateServer = (props) => {
   }
 
   return (
-    <div className="cs">
-      <div className="cs__content">
-        <div className="cs__container">
-          <div className="cs__close" onClick={hide}>
+    <div className="s">
+      <div className="s__content">
+        <div className="s__container">
+          <div className="s__close" onClick={hide}>
             <svg className="closeIcon-150W3V" aria-hidden="false" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M18.4 4L12 10.4L5.6 4L4 5.6L10.4 12L4 18.4L5.6 20L12 13.6L18.4 20L20 18.4L13.6 12L20 5.6L18.4 4Z"></path></svg>
           </div>
         </div>
-        <div className="cs__subtitle">Create a Server</div>
-        <p className="cs__description">Your server is where you and your friends hang out.
+        <div className="s__subtitle">Create a Server</div>
+        <p className="s__description">Your server is where you and your friends hang out.
           Make yours and start talking.</p>
-        <CreateServerItem onItemClicked={toggleCreate(true)} item={list[0]} />
-        <div className="cs__list-title">Start from a template</div>
-        <div className="cs__list">
-          {list.map((item, index) => index === 0 ? <React.Fragment key={index}></React.Fragment> : <CreateServerItem key={index} item={item} onItemClicked={toggleCreate(true)} />)}
+        <ServerItem onItemClicked={toggleCreate(true)} item={list[0]} />
+        <div className="s__list-title">Start from a template</div>
+        <div className="s__list">
+          {list.map((item, index) => index === 0 ? <React.Fragment key={index}></React.Fragment> : <ServerItem key={index} item={item} onItemClicked={toggleCreate(true)} />)}
         </div>
       </div>
     </div>
