@@ -66,12 +66,12 @@ const CreateServer = (props) => {
     toggleModal(false);
   };
 
-  const create = () => {
-    setIsCreating(() => true);
-  };
+  const toggleCreate = (isCreating) => () => {
+    setIsCreating(() => isCreating);
+  }
 
   if (isCreating) {
-    return <CreateServerForm hide={hide} />
+    return <CreateServerForm hide={hide} toggleCreate={toggleCreate(false)} />
   }
 
   return (
@@ -85,10 +85,10 @@ const CreateServer = (props) => {
         <div className="cs__subtitle">Create a Server</div>
         <p className="cs__description">Your server is where you and your friends hang out.
           Make yours and start talking.</p>
-        <CreateServerItem onItemClicked={create} item={list[0]} />
+        <CreateServerItem onItemClicked={toggleCreate(true)} item={list[0]} />
         <div className="cs__list-title">Start from a template</div>
         <div className="cs__list">
-          {list.map((item, index) => index === 0 ? <React.Fragment key={index}></React.Fragment> : <CreateServerItem key={index} item={item} onItemClicked={create} />)}
+          {list.map((item, index) => index === 0 ? <React.Fragment key={index}></React.Fragment> : <CreateServerItem key={index} item={item} onItemClicked={toggleCreate(true)} />)}
         </div>
       </div>
     </div>

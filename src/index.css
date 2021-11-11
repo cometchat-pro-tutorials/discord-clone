@@ -661,6 +661,13 @@ input {
   text-align: center;
 }
 
+.cs__ui img {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .cs__form-title {
   font-size: 13px;
   text-transform: uppercase;
@@ -691,7 +698,7 @@ input {
 
 .cs__fa {
   align-items: center;
-  background: #F6F6F7;
+  background: #f6f6f7;
   display: grid;
   font-size: 0.8125rem;
   font-weight: bold;
@@ -709,4 +716,14 @@ input {
   color: #fff;
   padding: 0.75rem 1rem;
   border-radius: 0.25rem;
+}
+
+.cs__back span:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.cs__create span:hover {
+  cursor: pointer;
+  opacity: 0.8;
 }
