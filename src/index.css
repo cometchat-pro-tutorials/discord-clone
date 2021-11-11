@@ -386,6 +386,11 @@ input {
   width: 3rem;
 }
 
+.home__menu-item:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
 .home__menu-item > svg {
   color: #fff;
 }
@@ -418,6 +423,11 @@ input {
   grid-template-columns: max-content auto;
   padding: 0.5rem 0.75rem;
   margin: 0 0.75rem;
+}
+
+.home__sidebar-item:hover {
+  cursor: pointer;
+  opacity: 0.8;
 }
 
 .home__sidebar-item--active {
@@ -540,12 +550,109 @@ input {
   font-size: 0.8125rem;
 }
 
-.fc__indicator { 
-  background-color: #b8bbbe; 
+.fc__indicator {
+  background-color: #b8bbbe;
   border-radius: 50%;
   height: 0.5rem;
   position: absolute;
   bottom: 0.75rem;
   left: 0.5rem;
   width: 0.5rem;
+}
+
+/* The Modal (background) */
+.cs {
+  background-color: rgba(0, 0, 0, 0.8);
+  display: block; /* Hidden by default */
+  height: 100%; /* Full height */
+  left: 0;
+  /* overflow: auto; */
+  position: fixed; /* Stay in place */
+  top: 0;
+  width: 100%; /* Full width */
+  z-index: 1; /* Sit on top */
+}
+
+/* Modal Content/Box */
+.cs__content {
+  background-color: #fefefe;
+  border-radius: 0.25rem;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+  margin: 15% auto;
+  margin-top: 5%;
+  padding-bottom: 1rem;
+  width: 27rem;
+  max-height: 30.9375rem;
+  overflow: auto;
+}
+
+.cs__title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  padding: 1.25rem 0 0.5rem 1.25rem;
+}
+
+.cs__close {
+  align-items: center;
+  display: grid;
+  justify-items: right;
+  padding: 1.25rem 1.25rem 0.5rem 0;
+}
+
+.cs__close:hover {
+  cursor: pointer;
+}
+
+.cs__subtitle {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-top: -1.125rem;
+  text-align: center;
+}
+
+.cs__description {
+  color: #757a83;
+  font-size: 14px;
+  padding: 1rem 0.75rem;
+  text-align: center;
+}
+
+.cs__list-title {
+  font-size: 13px;
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 0.5rem 0.75rem;
+  color: #4e5660;
+}
+
+.cs__li {
+  align-items: center;
+  border-radius: 0.25rem;
+  border: 1px solid #ccc;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin: 0.75rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.cs__li:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.cs__li-left {
+  align-items: center;
+  display: grid;
+  grid-gap: 0.75rem;
+  grid-template-columns: max-content max-content;
+}
+
+.cs__li-left span {
+  color: #2E3337;
+  font-weight: bold;
+}
+
+.cs__li-right {
+  display: grid;
+  justify-content: right;
 }

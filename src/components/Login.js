@@ -9,7 +9,7 @@ import SignUp from "./SignUp";
 import Context from "../context";
 import { auth, realTimeDb } from "../firebase";
 
-function Login(props) {
+const Login = (props) => {
   const { toggleModal } = props;
 
   const { setUser, setIsLoading, cometChat } = useContext(Context);

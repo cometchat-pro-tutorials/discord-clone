@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import Context from "../context";
 import { auth, realTimeDb } from "../firebase";
 
-function SignUp(props) {
+const SignUp = (props) => {
   const { toggleModal } = props;
 
   const emailRef = useRef(null);
