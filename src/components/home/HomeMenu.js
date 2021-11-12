@@ -3,13 +3,10 @@ import { useContext } from 'react';
 import { useHistory } from 'react-router';
 
 import HomeMenuItem from './HomeMenuItem';
-import withModal from '../common/Modal';
-import ModalWrapper from './ModalWrapper';
 
 import Context from '../../context';
 
-const HomeMenu = (props) => {
-  const { toggleModal } = props;
+const HomeMenu = () => {
 
   const { cometChat, setUser, selectedMenu, setSelectedMenu } = useContext(Context);
 
@@ -22,18 +19,10 @@ const HomeMenu = (props) => {
     },
     {
       id: 2,
-      icon: <svg className="circleIcon-2_77lA" aria-hidden="false" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M20 11.1111H12.8889V4H11.1111V11.1111H4V12.8889H11.1111V20H12.8889V12.8889H20V11.1111Z"></path></svg>
-    },
-    {
-      id: 3,
       icon: <svg xmlns="http://www.w3.org/2000/svg" style={{width: '1.5rem', height: '1.5rem'}} className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" /></svg>
     },
     {
-      id: 4, 
-      icon: <svg aria-hidden="false" className="circleIcon-2_77lA" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 10.9C11.39 10.9 10.9 11.39 10.9 12C10.9 12.61 11.39 13.1 12 13.1C12.61 13.1 13.1 12.61 13.1 12C13.1 11.39 12.61 10.9 12 10.9ZM12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM14.19 14.19L6 18L9.81 9.81L18 6L14.19 14.19Z"></path></svg>
-    },
-    {
-      id: 5, 
+      id: 3, 
       icon: <svg style={{width: '1.5rem', height: '1.5rem'}} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
     }
   ];
@@ -56,11 +45,8 @@ const HomeMenu = (props) => {
     setSelectedMenu(() => item.id);
     if (item.id === 1) {
       history.push('/friends');
-    } else if (item.id === 2 || item.id === 3)  {
-      toggleModal(true);
-    } else if (item.id === 4) {
-      history.push('/');
-    } else if (item.id === 5) {
+    } else if (item.id === 2)  {
+    } else if (item.id === 3) {
       logout();
     }
   };
@@ -71,4 +57,4 @@ const HomeMenu = (props) => {
     </div>
   );
 };
-export default withModal(ModalWrapper)(HomeMenu);
+export default HomeMenu;
