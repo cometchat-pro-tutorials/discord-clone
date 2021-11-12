@@ -31,12 +31,9 @@ const Menus = () => {
     const isLogout = window.confirm('Do you want to logout?');
     if (isLogout) {
       await cometChat.logout();
-
       localStorage.removeItem('auth');
-
       setUser(null);
       setSelectedMenu(4);
-
       history.push('/login');
     }
   };
@@ -44,15 +41,16 @@ const Menus = () => {
   const onItemSelected = (item) => () => {
     setSelectedMenu(() => item.id);
     if (item.id === 1) {
-      history.push('/friends');
+      history.push('/');
     } else if (item.id === 2)  {
+      history.push('/server');
     } else if (item.id === 3) {
       logout();
     }
   };
 
   return (
-    <div className="home__menu">
+    <div className="menu">
       {list.map(item => <Menu key={item.id} isActive={item.id === selectedMenu} onItemSelected={onItemSelected} item={item} />)}
     </div>
   );

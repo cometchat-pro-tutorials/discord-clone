@@ -6,9 +6,9 @@ import {
   Route
 } from 'react-router-dom';
 
-import Menus from './components/home/Menus';
-import Home from './components/home/Home';
+import Menus from './components/common/Menus';
 import Friend from './components/friend/Friend';
+import Server from './components/server/Server';
 import Login from './components/login/Login';
 import Loading from './components/common/Loading';
 import PrivateRoute from './components/common/PrivateRoute';
@@ -54,7 +54,7 @@ function App() {
 
   const initSelectedMenu = () => {
     const url = window.location.href;
-    setSelectedMenu(url.includes('friends') ? 1 : 4);
+    setSelectedMenu(url.includes('server') ? 2 : 1);
   };
 
   return (
@@ -62,8 +62,8 @@ function App() {
       <Router>
         {user && <Menus />}
         <Switch>
-          <PrivateRoute exact path="/" component={Home} />
-          <PrivateRoute exact path="/friends" component={Friend} />
+          <PrivateRoute exact path="/" component={Friend} />
+          <PrivateRoute exact path="/server" component={Server} />
           <Route exact path="/login">
             <Login />
           </Route>
