@@ -1,9 +1,9 @@
 import { useContext } from "react";
 
-import Context from '../context';
+import Context from '../../context';
 
-import CreateServer from "./CreateServer";
-import MyServer from "./MyServer";
+import CreateServer from "../servers/CreateServer";
+import MyServer from "../servers/MyServer";
 
 const ModalWrapper = (props) => {
   const { toggleModal } = props;

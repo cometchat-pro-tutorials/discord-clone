@@ -3,11 +3,11 @@ import { useRef, useContext } from "react";
 import validator from "validator";
 import { useHistory } from 'react-router-dom';
 
-import withModal from "./Modal";
-import SignUp from "./SignUp";
+import withModal from "../common/Modal";
+import SignUp from "../register/SignUp";
 
-import Context from "../context";
-import { auth, realTimeDb } from "../firebase";
+import Context from "../../context";
+import { auth, realTimeDb } from "../../firebase";
 
 const Login = (props) => {
   const { toggleModal } = props;

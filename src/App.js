@@ -6,12 +6,12 @@ import {
   Route
 } from 'react-router-dom';
 
-import HomeMenu from './components/HomeMenu';
-import Home from './components/Home';
-import Friends from './components/Friends';
-import Login from './components/Login';
-import Loading from './components/Loading';
-import PrivateRoute from './components/PrivateRoute';
+import HomeMenu from './components/home/HomeMenu';
+import Home from './components/home/Home';
+import Friends from './components/friends/Friends';
+import Login from './components/login/Login';
+import Loading from './components/common/Loading';
+import PrivateRoute from './components/common/PrivateRoute';
 
 import Context from './context';
 
@@ -22,10 +22,13 @@ function App() {
   const [user, setUser] = useState(null);
   const [cometChat, setCometChat] = useState(null);
   const [selectedMenu, setSelectedMenu] = useState(4);
+  const [hasNewFriend, setHasNewFriend] = useState(false);
+  const [selectedFriend, setSelectedFriend] = useState(null);
 
   useEffect(() => {
     initAuthUser();
     initCometChat();
+    initSelectedMenu();
   }, []);
 
   const initAuthUser = () => {
@@ -49,8 +52,13 @@ function App() {
     );
   }
 
+  const initSelectedMenu = () => {
+    const url = window.location.href;
+    setSelectedMenu(url.includes('friends') ? 1 : 4);
+  };
+
   return (
-    <Context.Provider value={{ isLoading, setIsLoading, user, setUser, cometChat, selectedMenu, setSelectedMenu }}>
+    <Context.Provider value={{ isLoading, setIsLoading, user, setUser, cometChat, selectedMenu, setSelectedMenu, hasNewFriend, setHasNewFriend, selectedFriend, setSelectedFriend }}>
       <Router>
         {user && <HomeMenu />}
         <Switch>

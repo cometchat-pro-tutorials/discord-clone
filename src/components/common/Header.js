@@ -1,6 +1,8 @@
 import { useContext } from 'react';
-import Context from '../Context';
+
 import { useHistory } from 'react-router-dom';
+
+import Context from '../Context';
 
 const Header = () => {
   const { user, setUser, cometChat } = useContext(Context);

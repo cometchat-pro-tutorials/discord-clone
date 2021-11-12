@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import SearchBox from './SearchBox';
 import FeatureCommunities from './FeatureCommunities';
 
-import { realTimeDb } from '../firebase';
+import { realTimeDb } from '../../firebase';
 
 const HomeMain = () => {
   const [communities, setCommunities] = useState([]);
@@ -30,10 +30,17 @@ const HomeMain = () => {
     });
   };
 
+  const onItemClicked = (selectedServer) => { 
+    if (!selectedServer) {
+      return;
+    }
+    console.log(selectedServer);
+  };
+
   return (
     <div className="home__main">
       <SearchBox onSearched={search} />
-      <FeatureCommunities communities={communities} />
+      <FeatureCommunities communities={communities} onItemClicked={onItemClicked} />
     </div>
   );
 };

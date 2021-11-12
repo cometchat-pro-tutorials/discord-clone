@@ -3,8 +3,8 @@ import { useRef, useContext } from "react";
 import validator from "validator";
 import { v4 as uuidv4 } from "uuid";
 
-import Context from "../context";
-import { auth, realTimeDb } from "../firebase";
+import Context from "../../context";
+import { auth, realTimeDb } from "../../firebase";
 
 const SignUp = (props) => {
   const { toggleModal } = props;
@@ -25,7 +25,7 @@ const SignUp = (props) => {
   };
 
   const isSignupValid = ({ fullname, email, password, confirmPassword }) => {
-    if (!validator.isEmpty(fullname)) {
+    if (validator.isEmpty(fullname)) {
       alert("Please input your fullname");
       return false;
     }
@@ -60,14 +60,14 @@ const SignUp = (props) => {
     return avatars[avatarPosition];
   };
 
-  const createAccount = ({ userUuid, email, userAvatar }) => {
-    return { id: userUuid, email, avatar: userAvatar }
+  const createAccount = ({ userUuid, fullname, email, userAvatar }) => {
+    return { id: userUuid, fullname, email, avatar: userAvatar }
   };
 
-  const createCometChatAccount = ({ userUuid, email, userAvatar }) => {
+  const createCometChatAccount = ({ userUuid, fullname, userAvatar }) => {
     const authKey = `${process.env.REACT_APP_COMETCHAT_AUTH_KEY}`;
     const user = new cometChat.User(userUuid);
-    user.setName(email);
+    user.setName(fullname);
     user.setAvatar(userAvatar);
 
     cometChat.createUser(user, authKey).then(
@@ -80,9 +80,9 @@ const SignUp = (props) => {
   };
 
   const signup = () => {
-    const { email, password, confirmPassword } = getInputs();
+    const { fullname, email, password, confirmPassword } = getInputs();
 
-    if (isSignupValid({ email, password, confirmPassword })) {
+    if (isSignupValid({ fullname, email, password, confirmPassword })) {
       setIsLoading(true);
 
       const userUuid = uuidv4();
@@ -90,11 +90,11 @@ const SignUp = (props) => {
 
       auth.createUserWithEmailAndPassword(email, password).then((userCrendentials) => {
         if (userCrendentials) {
-          const createdAccount = createAccount({ userUuid, email, userAvatar });
+          const createdAccount = createAccount({ userUuid, fullname, email, userAvatar });
 
           realTimeDb.ref(`users/${userUuid}`).set(createdAccount).then(() => {
             alert(`${email} was created successfully! Please sign in with your created account`);
-            createCometChatAccount({ userUuid, email, userAvatar });
+            createCometChatAccount({ userUuid, fullname, userAvatar });
             toggleModal(false);
           });
         }

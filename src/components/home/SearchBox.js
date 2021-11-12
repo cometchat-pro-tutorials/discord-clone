@@ -1,4 +1,4 @@
-import banner from '../images/banner.png';
+import banner from '../../images/banner.png';
 
 const SearchBox = (props) => {
   const { onSearched } = props;
