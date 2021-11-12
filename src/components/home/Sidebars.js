@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-import HomeSidebarItem from './HomeSidebarItem';
+import Sidebar from './Sidebar';
 
-const HomeSidebar = () => {
+const Sidebars = () => {
   const list = [
     {
       id: 1,
@@ -45,9 +45,9 @@ const HomeSidebar = () => {
   return (
     <div className="home__sidebar">
       <h3>Discover</h3>
-      {list.map(item => <HomeSidebarItem key={item.id} isActive={item.id === selected} onItemSelected={onItemSelected} item={item} />)}
+      {list.map(item => <Sidebar key={item.id} isActive={item.id === selected} onItemSelected={onItemSelected} item={item} />)}
     </div>
   );
 };
 
-export default HomeSidebar;
+export default Sidebars;

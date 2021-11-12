@@ -6,7 +6,7 @@ import {
   Route
 } from 'react-router-dom';
 
-import HomeMenu from './components/home/HomeMenu';
+import Menus from './components/home/Menus';
 import Home from './components/home/Home';
 import Friends from './components/friends/Friends';
 import Login from './components/login/Login';
@@ -60,7 +60,7 @@ function App() {
   return (
     <Context.Provider value={{ isLoading, setIsLoading, user, setUser, cometChat, selectedMenu, setSelectedMenu, hasNewFriend, setHasNewFriend, selectedFriend, setSelectedFriend }}>
       <Router>
-        {user && <HomeMenu />}
+        {user && <Menus />}
         <Switch>
           <PrivateRoute exact path="/" component={Home} />
           <PrivateRoute exact path="/friends" component={Friends} />

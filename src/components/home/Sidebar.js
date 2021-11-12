@@ -1,4 +1,4 @@
-const HomeSidebarItem = (props) => {
+const Sidebar = (props) => {
   const { isActive, onItemSelected, item } = props;
   return (
     <div className={`home__sidebar-item ${isActive ? 'home__sidebar-item--active' : ''}`} onClick={onItemSelected(item)}>
@@ -7,4 +7,4 @@ const HomeSidebarItem = (props) => {
     </div>
   );
 };
-export default HomeSidebarItem;
+export default Sidebar;

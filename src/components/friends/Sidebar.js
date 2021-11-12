@@ -1,4 +1,4 @@
-const FriendsSidebarItem = (props) => {
+const Sidebar = (props) => {
   const { friend, onItemClicked } = props;
 
   if (!friend) {
@@ -18,4 +18,4 @@ const FriendsSidebarItem = (props) => {
     </div>
   );
 };
-export default FriendsSidebarItem;
+export default Sidebar;

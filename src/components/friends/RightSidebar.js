@@ -1,4 +1,4 @@
-const ActiveNow = () => {
+const RightSidebar = () => {
   return (
     <div className="active-now">
       <div className="active-now__title">Active Now</div>
@@ -10,4 +10,4 @@ const ActiveNow = () => {
   );
 };
 
-export default ActiveNow;
+export default RightSidebar;

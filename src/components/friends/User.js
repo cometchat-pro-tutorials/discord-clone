@@ -1,4 +1,4 @@
-const AddFriendListItem = (props) => {
+const User = (props) => {
   const { user, onItemClicked } = props;
 
   const selectUser = (user) => () => {
@@ -15,4 +15,4 @@ const AddFriendListItem = (props) => {
   );
 };
 
-export default AddFriendListItem;
+export default User;

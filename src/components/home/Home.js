@@ -1,10 +1,10 @@
-import HomeSidebar from './HomeSidebar';
+import Sidebars from './Sidebars';
 
 const Home = () => {
 
   return (
     <div className="home__container">
-      <HomeSidebar />
+      <Sidebars />
     </div>
   );
 };

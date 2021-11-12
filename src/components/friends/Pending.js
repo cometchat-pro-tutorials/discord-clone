@@ -1,4 +1,4 @@
-const FriendsPendingListItem = (props) => {
+const Pending = (props) => {
   const { user, onAccepted, onRejected } = props;
 
   const accept = () => {
@@ -30,4 +30,4 @@ const FriendsPendingListItem = (props) => {
     </div>
   )
 };
-export default FriendsPendingListItem;
+export default Pending;

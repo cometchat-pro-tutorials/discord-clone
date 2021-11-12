@@ -1,11 +1,11 @@
-import FriendsSidebar from './FriendsSidebar';
-import FriendsMain from './FriendsMain';
+import Sidebars from './Sidebars';
+import Main from './Main';
 
 const Friends = () => {
   return (
     <div className="friends__container">
-      <FriendsSidebar />
-      <FriendsMain />
+      <Sidebars />
+      <Main />
     </div>
   );
 };

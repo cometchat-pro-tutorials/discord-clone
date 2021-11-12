@@ -1,4 +1,4 @@
-const FriendsMainHeader = (props) => {
+const Header = (props) => {
   const { onItemSelected, selectedOption } = props;
 
   const selectItem = (index) => () => {
@@ -12,4 +12,4 @@ const FriendsMainHeader = (props) => {
     </div>
   );
 };
-export default FriendsMainHeader;
+export default Header;

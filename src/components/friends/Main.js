@@ -1,15 +1,15 @@
 import { useState, useContext } from 'react';
 
-import FriendsMainHeader from './FriendsMainHeader';
-import FriendsPendingList from './FriendsPendingList';
-import AddFriend from './AddFriend';
-import ActiveNow from './ActiveNow';
+import Header from './Header';
+import Pendings from './Pendings';
+import Add from './Add';
+import RightSidebar from './RightSidebar';
 
 import Context from '../../context';
 
 import { CometChatMessages  } from '../../cometchat-pro-react-ui-kit/CometChatWorkspace/src';
 
-const FriendsMain = () => {
+const Main = () => {
   const [selectedOption, setSelectedOption] = useState(1);
 
   const { selectedFriend, setSelectedFriend } = useContext(Context);
@@ -24,23 +24,23 @@ const FriendsMain = () => {
       return <CometChatMessages chatWithUser={selectedFriend.uid} />;
     }
     if (selectedOption === 1) {
-      return <FriendsPendingList />;
+      return <Pendings />;
     }
     if (selectedOption === 3) {
-      return <AddFriend />;
+      return <Add />;
     }
   };
 
   return (
     <div className="friends__main">
-      <FriendsMainHeader onItemSelected={onItemSelected} selectedOption={selectedOption} />
+      <Header onItemSelected={onItemSelected} selectedOption={selectedOption} />
       <div className="friends__container">
         <div className="friends__container-body">
           {renderMain()}
         </div>
-        <ActiveNow />
+        <RightSidebar />
       </div>
     </div>
   );
 };
-export default FriendsMain;
+export default Main;

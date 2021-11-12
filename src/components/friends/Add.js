@@ -1,12 +1,12 @@
 import { useEffect, useState, useContext } from 'react';
 
-import AddFriendSearch from './AddFriendSearch';
-import AddFriendList from './AddFriendList';
+import Search from './Search';
+import Users from './Users';
 
 import Context from '../../context';
 import { realTimeDb } from '../../firebase';
 
-const AddFriend = () => {
+const Add = () => {
   const [authenticatedUser, setAuthenticatedUser] = useState(null);
   const [users, setUsers] = useState(null);
 
@@ -27,19 +27,13 @@ const AddFriend = () => {
 
   const loadCurrentUser = () => {
     setIsLoading(true);
-
     const user = JSON.parse(localStorage.getItem('auth'));
-
     realTimeDb.ref().child('users').orderByChild('email').equalTo(user.email).on("value", function (snapshot) {
-
       const val = snapshot.val();
-
       if (val) {
         const keys = Object.keys(val);
         const user = val[keys[0]];
-
         setAuthenticatedUser(user);
-
         setIsLoading(false);
       }
     });
@@ -139,17 +133,13 @@ const AddFriend = () => {
       return;
     }
     setIsLoading(true);
-    
     const authenticatedUserPending = { id: authenticatedUser.id, fullname: authenticatedUser.fullname, email: authenticatedUser.email, avatar: authenticatedUser.avatar };
     const selectedUserPending = { id: selectedUser.id, fullname: selectedUser.fullname, email: selectedUser.email, avatar: selectedUser.avatar };
     authenticatedUser.waiting = authenticatedUser.waiting && authenticatedUser.waiting.length ? authenticatedUser.waiting.push(selectedUserPending) : [selectedUserPending];
     selectedUser.pending = selectedUser.pending && selectedUser.pending.length ? selectedUser.pending.push(authenticatedUserPending) : [authenticatedUserPending];
-    
     await updateUser(authenticatedUser);
     await updateUser(selectedUser);
-    
     setIsLoading(false);
-    
     alert(`The request was sent to ${selectedUser.fullname} successfully`);
   }
 
@@ -162,9 +152,9 @@ const AddFriend = () => {
 
   return (
     <div className="add-friend">
-      <AddFriendSearch onSearchChanged={onSearchChanged} />
-      <AddFriendList users={users} onConfirmShown={onConfirmShown} />
+      <Search onSearchChanged={onSearchChanged} />
+      <Users users={users} onConfirmShown={onConfirmShown} />
     </div>
   );
 };
-export default AddFriend;
+export default Add;

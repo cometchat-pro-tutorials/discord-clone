@@ -1,4 +1,4 @@
-const FriendsSubHeader = (props) => {
+const SubHeader = (props) => {
   const { title } = props;
 
   return (
@@ -7,4 +7,4 @@ const FriendsSubHeader = (props) => {
     </div>
   );
 };
-export default FriendsSubHeader;
+export default SubHeader;

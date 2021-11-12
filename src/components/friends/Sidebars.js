@@ -1,10 +1,10 @@
 import { useState, useEffect, useContext } from 'react';
 
-import FriendsSidebarItem from './FriendsSidebarItem';
+import Sidebar from './Sidebar';
 
 import Context from '../../context';
 
-const FriendsSidebar = () => {
+const Sidebars = () => {
   const [friends, setFriends] = useState([]);
 
   const { cometChat, user, hasNewFriend, setHasNewFriend, setSelectedFriend } = useContext(Context);
@@ -89,9 +89,9 @@ const FriendsSidebar = () => {
       </div>
       <span className="friends__title">Direct Messages</span>
       <div className="friends__list">
-        {friends && friends.map(friend => <FriendsSidebarItem key={friend.uid} friend={friend} onItemClicked={selectFriend} />)}
+        {friends && friends.map(friend => <Sidebar key={friend.uid} friend={friend} onItemClicked={selectFriend} />)}
       </div>
     </div>
   );
 };
-export default FriendsSidebar;
+export default Sidebars;

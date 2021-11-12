@@ -1,13 +1,13 @@
 import { useEffect, useState, useContext } from 'react';
 
-import FriendsSubHeader from "./FriendsSubHeader";
-import FriendsPendingListItem from './FriendsPendingListItem';
+import SubHeader from "./SubHeader";
+import Pending from './Pending';
 import NotFound from './NotFound';
 
 import Context from '../../context';
 import { realTimeDb } from '../../firebase';
 
-const FriendsPendingList = () => {
+const Pendings = () => {
   const [authenticatedUser, setAuthenticatedUser] = useState(null);
   const [users, setUsers] = useState(null);
 
@@ -193,9 +193,9 @@ const FriendsPendingList = () => {
 
   return (
     <div className="friends__pl">
-      <FriendsSubHeader title={`Pending - ${users.length}`} />
-      {users.map(user => <FriendsPendingListItem key={user.id} user={user} onAccepted={onAccepted} onRejected={onRejected} />)}
+      <SubHeader title={`Pending - ${users.length}`} />
+      {users.map(user => <Pending key={user.id} user={user} onAccepted={onAccepted} onRejected={onRejected} />)}
     </div>
   )
 };
-export default FriendsPendingList;
+export default Pendings;

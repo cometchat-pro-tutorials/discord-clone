@@ -1,4 +1,4 @@
-const AddFriendSearch = (props) => {
+const Search = (props) => {
   const { onSearchChanged } = props;
 
   const onChanged = (e) => {
@@ -14,4 +14,4 @@ const AddFriendSearch = (props) => {
     </div>
   );
 };
-export default AddFriendSearch;
+export default Search;

@@ -2,11 +2,11 @@ import { useContext } from 'react';
 
 import { useHistory } from 'react-router';
 
-import HomeMenuItem from './HomeMenuItem';
+import Menu from './Menu';
 
 import Context from '../../context';
 
-const HomeMenu = () => {
+const Menus = () => {
 
   const { cometChat, setUser, selectedMenu, setSelectedMenu } = useContext(Context);
 
@@ -53,8 +53,8 @@ const HomeMenu = () => {
 
   return (
     <div className="home__menu">
-      {list.map(item => <HomeMenuItem key={item.id} isActive={item.id === selectedMenu} onItemSelected={onItemSelected} item={item} />)}
+      {list.map(item => <Menu key={item.id} isActive={item.id === selectedMenu} onItemSelected={onItemSelected} item={item} />)}
     </div>
   );
 };
-export default HomeMenu;
+export default Menus;
