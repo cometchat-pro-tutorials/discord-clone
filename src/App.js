@@ -8,7 +8,7 @@ import {
 
 import Menus from './components/home/Menus';
 import Home from './components/home/Home';
-import Friends from './components/friends/Friends';
+import Friend from './components/friend/Friend';
 import Login from './components/login/Login';
 import Loading from './components/common/Loading';
 import PrivateRoute from './components/common/PrivateRoute';
@@ -63,7 +63,7 @@ function App() {
         {user && <Menus />}
         <Switch>
           <PrivateRoute exact path="/" component={Home} />
-          <PrivateRoute exact path="/friends" component={Friends} />
+          <PrivateRoute exact path="/friends" component={Friend} />
           <Route exact path="/login">
             <Login />
           </Route>

@@ -1,7 +1,7 @@
 import Sidebars from './Sidebars';
 import Main from './Main';
 
-const Friends = () => {
+const Friend = () => {
   return (
     <div className="friends__container">
       <Sidebars />
@@ -9,4 +9,4 @@ const Friends = () => {
     </div>
   );
 };
-export default Friends;
+export default Friend;
