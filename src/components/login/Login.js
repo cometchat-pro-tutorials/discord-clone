@@ -1,4 +1,4 @@
-import { useRef, useContext } from "react";
+import { useEffect, useRef, useContext } from "react";
 
 import validator from "validator";
 import { useHistory } from 'react-router-dom';
@@ -18,6 +18,13 @@ const Login = (props) => {
   const passwordRef = useRef(null);
 
   const history = useHistory();
+
+  useEffect(() => { 
+    const authenticatedUser = JSON.parse(localStorage.getItem('auth'));
+    if (authenticatedUser) { 
+      history.push('/');
+    }
+  }, []);
 
   const getInputs = () => {
     const email = emailRef.current.value;
