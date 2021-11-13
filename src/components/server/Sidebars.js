@@ -2,14 +2,27 @@ import { useState, useEffect, useContext } from 'react';
 
 import withModal from '../common/Modal';
 import Create from '../channel/Create';
-import Sidebar from './Sidebar';
+import Channels from '../channel/Channels';
 
 import Context from '../../context';
+import { realTimeDb } from '../../firebase';
 
 const Sidebars = (props) => {
   const { toggleModal } = props;
 
-  const { cometChat, user, setIsLoading } = useContext(Context);
+  const [textChannels, setTextChannels] = useState([]);
+  const [voiceChannels, setVoiceChannels] = useState([]);
+
+  const { cometChat, user, setSelectedChannel, setSelectedChannelType } = useContext(Context);
+
+  useEffect(() => {
+    loadTextChannels();
+    loadVoiceChannels();
+    return () => {
+      setTextChannels([]);
+      setVoiceChannels([]);
+    }
+  }, []);
 
   useEffect(() => {
     if (cometChat) {
@@ -21,6 +34,28 @@ const Sidebars = (props) => {
       }
     }
   }, [cometChat]);
+
+  const loadTextChannels = () => {
+    realTimeDb.ref().child('text-channels').orderByChild('name').on("value", function (snapshot) {
+      const val = snapshot.val();
+      if (val) {
+        const keys = Object.keys(val);
+        const channels = keys.map(key => val[key]);
+        setTextChannels(() => channels);
+      }
+    });
+  };
+
+  const loadVoiceChannels = () => {
+    realTimeDb.ref().child('voice-channels').orderByChild('name').on("value", function (snapshot) {
+      const val = snapshot.val();
+      if (val) {
+        const keys = Object.keys(val);
+        const channels = keys.map(key => val[key]);
+        setVoiceChannels(() => channels);
+      }
+    });
+  };
 
   const listenCustomMessages = () => {
     cometChat.addMessageListener(
@@ -36,8 +71,62 @@ const Sidebars = (props) => {
     );
   };
 
-  const createChannel = () => { 
+  const createChannel = () => {
     toggleModal(true);
+  };
+
+  const setActiveChannel = (selectedChannel) => {
+    if (!selectedChannel) {
+      return;
+    }
+    setTextChannels(previousChannels => previousChannels.map(channel => channel.guid === selectedChannel.guid ? { ...selectedChannel, isActive: true } : { ...channel, isActive: false }));
+    setVoiceChannels(previousChannels => previousChannels.map(channel => channel.guid === selectedChannel.guid ? { ...selectedChannel, isActive: true } : { ...channel, isActive: false }));
+  };
+
+  const joinCometChatGroup = async (selectedChannel) => {
+    if (!selectedChannel) {
+      return;
+    }
+    await cometChat.joinGroup(selectedChannel.guid, 'public', '');
+  };
+
+  const joinFirebaseChannel = async ({ latestSelectedChannel, user, convertedChannelType }) => {
+    if (!latestSelectedChannel || !user) {
+      return;
+    }
+    latestSelectedChannel.members = latestSelectedChannel.members && latestSelectedChannel.members.length ? [...latestSelectedChannel.members, user.id] : [user.id];
+    await await realTimeDb.ref(`${convertedChannelType}/${latestSelectedChannel.guid}`).set(latestSelectedChannel);
+  };
+
+  const getLatestSelectedChannel = async (guid, channelType) => {
+    if (!guid || !channelType) {
+      return null;
+    }
+    const snapshot = await realTimeDb.ref().child(channelType).orderByChild('guid').equalTo(guid).once("value");
+    const val = snapshot.val();
+    if (!val) {
+      return null;
+    }
+    if (val) {
+      const keys = Object.keys(val);
+      return val[keys[0]];
+    }
+
+  };
+
+  const onChannelSelected = async (selectedChannel, channelType) => {
+    if (!selectedChannel || !channelType) {
+      return;
+    }
+    const convertedChannelType = channelType === 1 ? 'text-channels' : 'voice-channels';
+    const latestSelectedChannel = await getLatestSelectedChannel(selectedChannel.guid, convertedChannelType);
+    if (latestSelectedChannel && (!latestSelectedChannel.members || !latestSelectedChannel.members.includes(user.id))) {
+      await joinFirebaseChannel({ latestSelectedChannel, user, convertedChannelType });
+      await joinCometChatGroup(latestSelectedChannel);
+    }
+    setActiveChannel(selectedChannel);
+    setSelectedChannel(selectedChannel);
+    setSelectedChannelType(channelType);
   };
 
   return (
@@ -56,6 +145,8 @@ const Sidebars = (props) => {
         </div>
       </div>
       <div className="server__list">
+        <Channels title='Text Channels' channels={textChannels} channelType={1} onItemClicked={onChannelSelected} />
+        <Channels title='Voice Channels' channels={voiceChannels} channelType={2} onItemClicked={onChannelSelected} />
       </div>
     </div>
   );

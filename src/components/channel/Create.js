@@ -1,9 +1,18 @@
-import { useState } from 'react';
+import { useState, useRef, useContext } from 'react';
+
+import { v4 as uuidv4 } from "uuid";
+
+import Context from '../../context';
+import { realTimeDb } from '../../firebase';
 
 const Create = (props) => {
+  const { toggleModal } = props;
+
+  const { user, cometChat, setIsLoading } = useContext(Context);
+
   const [selectedType, setSelectedType] = useState(1);
 
-  const { toggleModal } = props;
+  const channelNameRef = useRef(null);
 
   const selectChannelType = (selectedType) => () => {
     if (!selectedType) {
@@ -22,6 +31,33 @@ const Create = (props) => {
 
   const close = () => {
     toggleModal(false);
+  };
+
+  const createChannel = ({ name, guid }) => {
+    return { name, guid, members: [user.id] };
+  };
+
+  const createFirebaseChannel = async ({ channelType, guid, createdChannel }) => {
+    await realTimeDb.ref(`${channelType}/${guid}`).set(createdChannel);
+  }
+
+  const createCometChatGroup = async ({ guid, channelName }) => {
+    const group = new cometChat.Group(guid, channelName, 'public', '');
+    await cometChat.createGroup(group);
+  };
+
+  const create = async () => {
+    const channelName = channelNameRef.current.value;
+    if (channelName) {
+      setIsLoading(true);
+      const guid = uuidv4();
+      const createdChannel = createChannel({ name: channelName, guid });
+      const channelType = selectedType === 1 ? 'text-channels' : 'voice-channels';
+      await createFirebaseChannel({ channelType, guid, createdChannel });
+      await createCometChatGroup({ guid, channelName });
+      setIsLoading(false);
+      close();
+    }
   };
 
   return (
@@ -80,13 +116,13 @@ const Create = (props) => {
         <div className="channel__name-title">Channel Name</div>
         <div className="channel__name-input-container">
           {renderInputIcon()}
-          <input type="text" placeholder="new-channel" />
+          <input type="text" placeholder="new-channel" ref={channelNameRef} />
         </div>
         <div className="channel__actions">
           <div className="channel__cancel" onClick={close}>
             <span>Cancel</span>
           </div>
-          <div className="channel__create">
+          <div className="channel__create" onClick={create}>
             <span>Create Channel</span>
           </div>
         </div>

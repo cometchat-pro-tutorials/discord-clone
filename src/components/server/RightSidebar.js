@@ -1,5 +1,101 @@
-const RightSidebar = (props) => {
-  const { members } = props;
+import { useState, useEffect, useContext } from 'react';
+
+import { v4 as uuidv4 } from "uuid";
+
+import Sidebar from './Sidebar';
+
+import Context from '../../context';
+
+const RightSidebar = () => {
+  const [members, setMembers] = useState([]);
+
+  const { cometChat, selectedChannel } = useContext(Context);
+
+  const userPresenseListenerId = uuidv4();
+
+  useEffect(() => {
+    if (cometChat && selectedChannel) {
+      loadChannelMembers();
+      listenGroupChanges();
+      listenUserPresense();
+      return () => {
+        setMembers([]);
+        if (cometChat) {
+          cometChat.removeGroupListener(selectedChannel.guid);
+          cometChat.removeUserListener(userPresenseListenerId);
+        }
+      }
+    }
+  }, [cometChat, selectedChannel]);
+
+  const loadChannelMembers = () => {
+    const limit = 30;
+    const groupMemberRequest = new cometChat.GroupMembersRequestBuilder(selectedChannel.guid)
+      .setLimit(limit)
+      .build();
+
+    groupMemberRequest.fetchNext().then(
+      groupMembers => {
+        setMembers(() => groupMembers);
+      }, error => {
+      }
+    );
+  };
+
+  const listenGroupChanges = () => {
+    cometChat.addGroupListener(
+      selectedChannel.guid,
+      new cometChat.GroupListener({
+        onGroupMemberJoined: (message, joinedUser, joinedGroup) => {
+          loadChannelMembers();
+        },
+        onGroupMemberLeft: (message, leftUser, leftGroup) => {
+          loadChannelMembers();
+        },
+        onGroupMemberKicked: (message, kickedUser, kickedBy, kickedFrom) => {
+          loadChannelMembers();
+        },
+        onGroupMemberBanned: (message, bannedUser, bannedBy, bannedFrom) => {
+          loadChannelMembers();
+        },
+        onGroupMemberUnbanned: (message, unbannedUser, unbannedBy, unbannedFrom) => {
+          loadChannelMembers();
+        },
+        onGroupMemberScopeChanged: (message, changedUser, newScope, oldScope, changedGroup) => {
+          loadChannelMembers();
+        },
+        onMemberAddedToGroup: (message, userAdded, addedby, addedTo) => {
+          loadChannelMembers();
+        },
+      })
+    );
+  };
+
+  const updateMembers = (user) => {
+    if (!user) {
+      return;
+    }
+    setMembers(previousMembers => previousMembers.map(member => {
+      if (member && member.uid === user.uid) {
+        return { ...member, status: user.status === 'online' ? 'available' : 'offline' };
+      }
+      return { ...member };
+    }));
+  };
+
+  const listenUserPresense = () => {
+    cometChat.addUserListener(
+      userPresenseListenerId,
+      new cometChat.UserListener({
+        onUserOnline: onlineUser => {
+          updateMembers(onlineUser);
+        },
+        onUserOffline: offlineUser => {
+          updateMembers(offlineUser);
+        }
+      })
+    );
+  };
 
   if (!members || !members.length) {
     return (
@@ -14,7 +110,14 @@ const RightSidebar = (props) => {
   }
 
   return (
-    <></>
+    <div className="right-sidebar">
+      <div className="group-members__sidebar">
+        <span className="group-members__title">Channel Members</span>
+        <div className="group-members__list">
+          {members && members.map(member => <Sidebar key={member.uid} member={member} />)}
+        </div>
+      </div>
+    </div>
   );
 };
 

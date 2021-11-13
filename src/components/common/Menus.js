@@ -8,7 +8,7 @@ import Context from '../../context';
 
 const Menus = () => {
 
-  const { cometChat, setUser, selectedMenu, setSelectedMenu } = useContext(Context);
+  const { cometChat, setUser, selectedMenu, setSelectedMenu, setSelectedFriend, setSelectedChannel, setSelectedChannelType } = useContext(Context);
 
   const history = useHistory();
 
@@ -34,6 +34,9 @@ const Menus = () => {
       localStorage.removeItem('auth');
       setUser(null);
       setSelectedMenu(4);
+      setSelectedFriend(null);
+      setSelectedChannel(null);
+      setSelectedChannelType(null);
       history.push('/login');
     }
   };

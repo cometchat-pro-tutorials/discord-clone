@@ -8,7 +8,7 @@ const Users = (props) => {
   }
 
   return (
-    <div className="af__list">
+    <div className="add-friend__list">
       {users.map(user => <User key={user.id} user={user} onItemClicked={onConfirmShown} />)}
     </div>
   );

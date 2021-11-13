@@ -1,5 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 
+import { v4 as uuidv4 } from "uuid";
+
 import Sidebar from './Sidebar';
 
 import Context from '../../context';
@@ -8,6 +10,8 @@ const Sidebars = () => {
   const [friends, setFriends] = useState([]);
 
   const { cometChat, user, hasNewFriend, setHasNewFriend, setSelectedFriend } = useContext(Context);
+
+  const userPresenseListenerId = uuidv4();
 
   useEffect(() => {
     if (hasNewFriend) {
@@ -21,12 +25,14 @@ const Sidebars = () => {
     }
     if (cometChat && user) {
       listenCustomMessages();
+      listenUserPresense();
     }
     return () => {
       setFriends([]);
       setSelectedFriend(null);
       if (cometChat) {
         cometChat.removeMessageListener(user.id);
+        cometChat.removeUserListener(userPresenseListenerId);
       }
     }
   }, [user, cometChat]);
@@ -63,6 +69,32 @@ const Sidebars = () => {
               loadFriends();
             }
           }
+        }
+      })
+    );
+  };
+
+  const updateFriends = (user) => {
+    if (!user) {
+      return;
+    }
+    setFriends(previousFriends => previousFriends.map(friend => {
+      if (friend && friend.uid === user.uid) {
+        return { ...friend, status: user.status === 'online' ? 'available' : 'offline' };
+      }
+      return { ...friend };
+    }));
+  }
+
+  const listenUserPresense = () => {
+    cometChat.addUserListener(
+      userPresenseListenerId,
+      new cometChat.UserListener({
+        onUserOnline: onlineUser => {
+          updateFriends(onlineUser);
+        },
+        onUserOffline: offlineUser => {
+          updateFriends(offlineUser);
         }
       })
     );

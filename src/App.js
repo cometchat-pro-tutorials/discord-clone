@@ -24,6 +24,8 @@ function App() {
   const [selectedMenu, setSelectedMenu] = useState(4);
   const [hasNewFriend, setHasNewFriend] = useState(false);
   const [selectedFriend, setSelectedFriend] = useState(null);
+  const [selectedChannel, setSelectedChannel] = useState(null);
+  const [selectedChannelType, setSelectedChannelType] = useState(null);
 
   useEffect(() => {
     initAuthUser();
@@ -58,7 +60,7 @@ function App() {
   };
 
   return (
-    <Context.Provider value={{ isLoading, setIsLoading, user, setUser, cometChat, selectedMenu, setSelectedMenu, hasNewFriend, setHasNewFriend, selectedFriend, setSelectedFriend }}>
+    <Context.Provider value={{ isLoading, setIsLoading, user, setUser, cometChat, selectedMenu, setSelectedMenu, hasNewFriend, setHasNewFriend, selectedFriend, setSelectedFriend, selectedChannel, setSelectedChannel, selectedChannelType, setSelectedChannelType }}>
       <Router>
         {user && <Menus />}
         <Switch>
