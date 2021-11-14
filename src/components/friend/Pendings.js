@@ -88,8 +88,8 @@ const Pendings = () => {
     const authenticatedUserFriend = { id: authenticatedUser.id, fullname: authenticatedUser.fullname, email: authenticatedUser.email, avatar: authenticatedUser.avatar };
     const selectedUserFriend = { id: selectedUser.id, fullname: selectedUser.fullname, email: selectedUser.email, avatar: selectedUser.avatar };
 
-    authenticatedUser.friends = authenticatedUser.friends && authenticatedUser.friends.length ? authenticatedUser.friends.push(selectedUserFriend) : [selectedUserFriend];
-    selectedUser.friends = selectedUser.friends && selectedUser.friends.length ? selectedUser.friends.push(authenticatedUserFriend) : [authenticatedUserFriend];
+    authenticatedUser.friends = authenticatedUser.friends && authenticatedUser.friends.length ? [...authenticatedUser.friends, selectedUserFriend] : [selectedUserFriend];
+    selectedUser.friends = selectedUser.friends && selectedUser.friends.length ? [...selectedUser.friends, authenticatedUserFriend] : [authenticatedUserFriend];
 
     await updateUser(authenticatedUser);
     await updateUser(selectedUser);

@@ -21,7 +21,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
   const [cometChat, setCometChat] = useState(null);
-  const [selectedMenu, setSelectedMenu] = useState(4);
+  const [selectedMenu, setSelectedMenu] = useState(1);
   const [hasNewFriend, setHasNewFriend] = useState(false);
   const [selectedFriend, setSelectedFriend] = useState(null);
   const [selectedChannel, setSelectedChannel] = useState(null);
