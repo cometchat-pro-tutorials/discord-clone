@@ -13,6 +13,7 @@ const Sidebars = () => {
   let loadFriends = null;
   let listenCustomMessages = null;
   let listenUserPresense = null;
+  let updateFriends = null;
 
   useEffect(() => {
     if (hasNewFriend) {
@@ -75,16 +76,18 @@ const Sidebars = () => {
     );
   }, [cometChat, loadFriends, user]);
 
-  const updateFriends = (user) => {
+  updateFriends = (user) => {
     if (!user) {
       return;
     }
-    setFriends(previousFriends => previousFriends.map(friend => {
-      if (friend && friend.uid === user.uid) {
-        return { ...friend, status: user.status === 'online' ? 'available' : 'offline' };
-      }
-      return { ...friend };
-    }));
+    if (friends && friends.length) {
+      setFriends(previousFriends => previousFriends.map(friend => {
+        if (friend && friend.uid === user.uid) {
+          return { ...friend, status: user.status === 'online' ? 'available' : 'offline' };
+        }
+        return { ...friend };
+      }));
+    }
   }
 
   listenUserPresense = useCallback(() => {
@@ -99,7 +102,7 @@ const Sidebars = () => {
         }
       })
     );
-  }, [cometChat, userPresenseListenerId]);
+  }, [cometChat, userPresenseListenerId, updateFriends]);
 
   const goMain = () => {
     setSelectedFriend(null);
