@@ -1,9 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
-
 import withModal from '../common/Modal';
 import Create from '../channel/Create';
 import Channels from '../channel/Channels';
-
 import Context from '../../context';
 import { realTimeDb } from '../../firebase';
 
