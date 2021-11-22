@@ -1,8 +1,6 @@
 import { useRef, useContext } from "react";
-
 import validator from "validator";
 import { v4 as uuidv4 } from "uuid";
-
 import Context from "../../context";
 import { auth, realTimeDb } from "../../firebase";
 
@@ -69,7 +67,6 @@ const SignUp = (props) => {
     const user = new cometChat.User(userUuid);
     user.setName(fullname);
     user.setAvatar(userAvatar);
-
     cometChat.createUser(user, authKey).then(
       user => {
         setIsLoading(false);
@@ -81,17 +78,13 @@ const SignUp = (props) => {
 
   const signup = () => {
     const { fullname, email, password, confirmPassword } = getInputs();
-
     if (isSignupValid({ fullname, email, password, confirmPassword })) {
       setIsLoading(true);
-
       const userUuid = uuidv4();
       const userAvatar = generateAvatar();
-
       auth.createUserWithEmailAndPassword(email, password).then((userCrendentials) => {
         if (userCrendentials) {
           const createdAccount = createAccount({ userUuid, fullname, email, userAvatar });
-
           realTimeDb.ref(`users/${userUuid}`).set(createdAccount).then(() => {
             alert(`${email} was created successfully! Please sign in with your created account`);
             createCometChatAccount({ userUuid, fullname, userAvatar });

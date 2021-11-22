@@ -9,27 +9,26 @@ import Context from '../../context';
 const Main = () => {
   const { cometChat, selectedChannel, selectedChannelType, setSelectedChannelType } = useContext(Context);
 
+  let startDirectCall = null;
+
   useEffect(() => {
-    if (cometChat, selectedChannel && selectedChannelType === 2) {
+    if (cometChat && selectedChannel && selectedChannelType === 2) {
       startDirectCall();
     }
-  }, [cometChat, selectedChannel, selectedChannelType]);
+  }, [cometChat, selectedChannel, selectedChannelType, startDirectCall]);
 
-  const startDirectCall = () => {
+  startDirectCall = () => {
     if (cometChat && selectedChannel && selectedChannelType === 2) {
       const sessionID = selectedChannel.guid;
       const audioOnly = false;
       const defaultLayout = true;
-
       const callSettings = new cometChat.CallSettingsBuilder()
         .enableDefaultLayout(defaultLayout)
         .setSessionID(sessionID)
         .setIsAudioOnlyCall(audioOnly)
         .build();
-
       const callSceen = document.getElementById("call__screen");
       callSceen.classList.add('call__screen--active');
-
       cometChat.startCall(
         callSettings,
         document.getElementById("call__screen"),

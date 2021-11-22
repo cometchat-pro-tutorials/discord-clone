@@ -1,7 +1,5 @@
 import { useContext } from 'react';
-
 import { useHistory } from 'react-router-dom';
-
 import Context from '../Context';
 
 const Header = () => {
@@ -13,12 +11,9 @@ const Header = () => {
     const isLogout = window.confirm('Do you want to log out ?');
     if (isLogout) {
       await cometChat.logout();
-
-      localStorage.removeItem('auth');
-
       setUser(null);
-      
       history.push('/login');
+      localStorage.removeItem('auth');
     }
   }
 

@@ -1,9 +1,6 @@
-import { useState, useEffect, useContext } from 'react';
-
+import { useState, useEffect, useContext, useRef, useCallback } from 'react';
 import { v4 as uuidv4 } from "uuid";
-
 import Sidebar from './Sidebar';
-
 import Context from '../../context';
 
 const RightSidebar = () => {
@@ -11,7 +8,11 @@ const RightSidebar = () => {
 
   const { cometChat, selectedChannel } = useContext(Context);
 
-  const userPresenseListenerId = uuidv4();
+  const userPresenseListenerId = useRef(uuidv4());
+
+  let loadChannelMembers = null;
+  let listenGroupChanges = null;
+  let listenUserPresense = null;
 
   useEffect(() => {
     if (cometChat && selectedChannel) {
@@ -26,9 +27,9 @@ const RightSidebar = () => {
         }
       }
     }
-  }, [cometChat, selectedChannel]);
+  }, [cometChat, selectedChannel, loadChannelMembers, listenGroupChanges, listenUserPresense, userPresenseListenerId]);
 
-  const loadChannelMembers = () => {
+  loadChannelMembers = useCallback(() => {
     const limit = 30;
     const groupMemberRequest = new cometChat.GroupMembersRequestBuilder(selectedChannel.guid)
       .setLimit(limit)
@@ -40,9 +41,9 @@ const RightSidebar = () => {
       }, error => {
       }
     );
-  };
+  }, [cometChat, selectedChannel]);
 
-  const listenGroupChanges = () => {
+  listenGroupChanges = useCallback(() => {
     cometChat.addGroupListener(
       selectedChannel.guid,
       new cometChat.GroupListener({
@@ -69,7 +70,7 @@ const RightSidebar = () => {
         },
       })
     );
-  };
+  }, [cometChat, selectedChannel, loadChannelMembers]);
 
   const updateMembers = (user) => {
     if (!user) {
@@ -83,7 +84,7 @@ const RightSidebar = () => {
     }));
   };
 
-  const listenUserPresense = () => {
+  listenUserPresense = useCallback(() => {
     cometChat.addUserListener(
       userPresenseListenerId,
       new cometChat.UserListener({
@@ -95,7 +96,7 @@ const RightSidebar = () => {
         }
       })
     );
-  };
+  }, [cometChat]);
 
   if (!members || !members.length) {
     return (

@@ -1,14 +1,10 @@
 import { useContext } from 'react';
-
 import { useHistory } from 'react-router';
-
 import Menu from './Menu';
-
 import Context from '../../context';
 
 const Menus = () => {
-
-  const { cometChat, setUser, selectedMenu, setSelectedMenu, setSelectedFriend, setSelectedChannel, setSelectedChannelType } = useContext(Context);
+  const { cometChat, selectedMenu, setSelectedMenu, setSelectedFriend, setSelectedChannel, setSelectedChannelType } = useContext(Context);
 
   const history = useHistory();
 
@@ -31,12 +27,11 @@ const Menus = () => {
     const isLogout = window.confirm('Do you want to logout?');
     if (isLogout) {
       await cometChat.logout();
-      localStorage.removeItem('auth');
-      setUser(null);
       setSelectedMenu(4);
       setSelectedFriend(null);
       setSelectedChannel(null);
       setSelectedChannelType(null);
+      localStorage.removeItem('auth');
       history.push('/login');
     }
   };

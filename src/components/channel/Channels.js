@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import Channel from './Channel';
 
 const Channels = (props) => {

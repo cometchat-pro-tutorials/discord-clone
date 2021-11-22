@@ -1,7 +1,5 @@
 import { useState, useRef, useContext } from 'react';
-
 import { v4 as uuidv4 } from "uuid";
-
 import Context from '../../context';
 import { realTimeDb } from '../../firebase';
 

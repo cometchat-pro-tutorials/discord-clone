@@ -1,9 +1,7 @@
 import { useEffect, useState, useContext } from 'react';
-
 import SubHeader from "./SubHeader";
 import Pending from './Pending';
 import NotFound from './NotFound';
-
 import Context from '../../context';
 import { realTimeDb } from '../../firebase';
 
@@ -13,21 +11,24 @@ const Pendings = () => {
 
   const { cometChat, setIsLoading, setHasNewFriend } = useContext(Context);
 
+  let loadCurrentUser = null;
+  let loadPendingRequests = null;
+
   useEffect(() => {
     loadCurrentUser();
     return () => {
       setAuthenticatedUser(null);
       setUsers(null);
     }
-  }, []);
+  }, [loadCurrentUser]);
 
   useEffect(() => {
     if (authenticatedUser) {
       loadPendingRequests();
     }
-  }, [authenticatedUser]);
+  }, [authenticatedUser, loadPendingRequests]);
 
-  const loadCurrentUser = () => {
+  loadCurrentUser = () => {
     setIsLoading(true);
     const user = JSON.parse(localStorage.getItem('auth'));
     realTimeDb.ref().child('users').orderByChild('email').equalTo(user.email).on("value", function (snapshot) {
@@ -41,8 +42,7 @@ const Pendings = () => {
     });
   };
 
-
-  const loadPendingRequests = () => {
+  loadPendingRequests = () => {
     if (!authenticatedUser) {
       return;
     }
@@ -99,15 +99,8 @@ const Pendings = () => {
     const receiverID = receiverId;
     const customType = type;
     const receiverType = cometChat.RECEIVER_TYPE.USER;
-    const customData = {
-      message
-    };
-    const customMessage = new cometChat.CustomMessage(
-      receiverID,
-      receiverType,
-      customType,
-      customData
-    );
+    const customData = { message };
+    const customMessage = new cometChat.CustomMessage(receiverID, receiverType, customType, customData);
 
     cometChat.sendCustomMessage(customMessage).then(
       message => {

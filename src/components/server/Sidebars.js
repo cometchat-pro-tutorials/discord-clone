@@ -15,6 +15,8 @@ const Sidebars = (props) => {
 
   const { cometChat, user, setSelectedChannel, setSelectedChannelType } = useContext(Context);
 
+  let listenCustomMessages = null;
+
   useEffect(() => {
     loadTextChannels();
     loadVoiceChannels();
@@ -33,7 +35,7 @@ const Sidebars = (props) => {
         cometChat.removeMessageListener(user.id);
       }
     }
-  }, [cometChat]);
+  }, [cometChat, listenCustomMessages, user]);
 
   const loadTextChannels = () => {
     realTimeDb.ref().child('text-channels').orderByChild('name').on("value", function (snapshot) {
@@ -57,7 +59,7 @@ const Sidebars = (props) => {
     });
   };
 
-  const listenCustomMessages = () => {
+  listenCustomMessages = () => {
     cometChat.addMessageListener(
       user.id,
       new cometChat.MessageListener({

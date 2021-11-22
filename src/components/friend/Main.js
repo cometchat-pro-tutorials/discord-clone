@@ -1,13 +1,10 @@
 import { useState, useContext } from 'react';
-
+import { CometChatMessages  } from '../../cometchat-pro-react-ui-kit/CometChatWorkspace/src';
 import Header from './Header';
 import Pendings from './Pendings';
 import Add from './Add';
 import RightSidebar from './RightSidebar';
-
 import Context from '../../context';
-
-import { CometChatMessages  } from '../../cometchat-pro-react-ui-kit/CometChatWorkspace/src';
 
 const Main = () => {
   const [selectedOption, setSelectedOption] = useState(1);

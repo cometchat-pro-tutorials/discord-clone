@@ -1,8 +1,6 @@
 import { useEffect, useState, useContext } from 'react';
-
 import Search from './Search';
 import Users from './Users';
-
 import Context from '../../context';
 import { realTimeDb } from '../../firebase';
 
@@ -12,20 +10,23 @@ const Add = () => {
 
   const { setIsLoading } = useContext(Context);
 
+  let loadCurrentUser = null;
+  let loadUsers = null;
+
   useEffect(() => {
     loadCurrentUser();
     return () => {
       setUsers([]);
     }
-  }, []);
+  }, [loadCurrentUser]);
 
   useEffect(() => {
     if (authenticatedUser) {
       loadUsers();
     }
-  }, [authenticatedUser]);
+  }, [authenticatedUser, loadUsers]);
 
-  const loadCurrentUser = () => {
+  loadCurrentUser = () => {
     setIsLoading(true);
     const user = JSON.parse(localStorage.getItem('auth'));
     realTimeDb.ref().child('users').orderByChild('email').equalTo(user.email).on("value", function (snapshot) {
@@ -103,7 +104,7 @@ const Add = () => {
     setUsers(() => filteredUsers);
   };
 
-  const loadUsers = (name = '') => {
+  loadUsers = (name = '') => {
     realTimeDb.ref().child('users').orderByChild('fullname').startAt(name).endAt(name + "\uf8ff").on("value", function (snapshot) {
       const values = snapshot.val();
       if (values && values.length !== 0) {
@@ -135,8 +136,8 @@ const Add = () => {
     setIsLoading(true);
     const authenticatedUserPending = { id: authenticatedUser.id, fullname: authenticatedUser.fullname, email: authenticatedUser.email, avatar: authenticatedUser.avatar };
     const selectedUserPending = { id: selectedUser.id, fullname: selectedUser.fullname, email: selectedUser.email, avatar: selectedUser.avatar };
-    authenticatedUser.waiting = authenticatedUser.waiting && authenticatedUser.waiting.length ? authenticatedUser.waiting.push(selectedUserPending) : [selectedUserPending];
-    selectedUser.pending = selectedUser.pending && selectedUser.pending.length ? selectedUser.pending.push(authenticatedUserPending) : [authenticatedUserPending];
+    authenticatedUser.waiting = authenticatedUser.waiting && authenticatedUser.waiting.length ? [...authenticatedUser.waiting, selectedUserPending] : [selectedUserPending];
+    selectedUser.pending = selectedUser.pending && selectedUser.pending.length ? [...selectedUser.pending, authenticatedUserPending] : [authenticatedUserPending];
     await updateUser(authenticatedUser);
     await updateUser(selectedUser);
     setIsLoading(false);

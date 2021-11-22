@@ -1,22 +1,17 @@
 import { useState, useEffect } from 'react';
-
 import {
   BrowserRouter as Router,
   Switch,
   Route
 } from 'react-router-dom';
-
 import Menus from './components/common/Menus';
 import Friend from './components/friend/Friend';
 import Server from './components/server/Server';
 import Login from './components/login/Login';
 import Loading from './components/common/Loading';
 import PrivateRoute from './components/common/PrivateRoute';
-
 import Context from './context';
-
 import './index.css';
-
 function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);

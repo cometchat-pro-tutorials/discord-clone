@@ -1,11 +1,8 @@
 import { useEffect, useRef, useContext } from "react";
-
 import validator from "validator";
 import { useHistory } from 'react-router-dom';
-
 import withModal from "../common/Modal";
 import SignUp from "../register/SignUp";
-
 import Context from "../../context";
 import { auth, realTimeDb } from "../../firebase";
 
@@ -23,8 +20,10 @@ const Login = (props) => {
     const authenticatedUser = JSON.parse(localStorage.getItem('auth'));
     if (authenticatedUser) { 
       history.push('/');
+    } else {
+      setUser(null);
     }
-  }, []);
+  }, [history, setUser]);
 
   const getInputs = () => {
     const email = emailRef.current.value;
@@ -38,14 +37,11 @@ const Login = (props) => {
 
   const loginCometChat = (user) => {
     const authKey = `${process.env.REACT_APP_COMETCHAT_AUTH_KEY}`;
-
     cometChat.login(user.id, authKey).then(
       User => {
-        localStorage.setItem('auth', JSON.stringify(user));
-        
         setUser(user);
         setIsLoading(false);
-
+        localStorage.setItem('auth', JSON.stringify(user));
         history.push('/');
       },
       error => {
@@ -55,20 +51,14 @@ const Login = (props) => {
 
   const login = () => {
     setIsLoading(true);
-
     const { email, password } = getInputs();
-
     if (isUserCredentialsValid(email, password)) {
       auth.signInWithEmailAndPassword(email, password).then((userCredential) => {
-
         realTimeDb.ref().child('users').orderByChild('email').equalTo(email).on("value", function (snapshot) {
-
           const val = snapshot.val();
-
           if (val) {
             const keys = Object.keys(val);
             const user = val[keys[0]];
-
             loginCometChat(user);
           }
         });
