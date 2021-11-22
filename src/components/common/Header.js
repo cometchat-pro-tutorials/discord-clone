@@ -12,8 +12,8 @@ const Header = () => {
     if (isLogout) {
       await cometChat.logout();
       setUser(null);
-      history.push('/login');
       localStorage.removeItem('auth');
+      history.push('/login');
     }
   }
 
